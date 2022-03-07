@@ -8,12 +8,12 @@ More information about the course can be found here: https://cybersecuritybase.m
 
 ## Installation
 
-- Open your terminal and cd to the folder where you want the software to be installed
-- (Assuming you have git installed) Execute the following command:
+1. Open your terminal and cd to the folder where you want the software to be installed
+2. (Assuming you have git installed) Execute the following command: <br/>
 `git clone git@github.com:tonimobin/cyber-security-base-2022.git`
-- Step 3
-- Step 4
-- Step 5
+3. Step 3
+4. Step 4
+5. Step 5
 
 ## Flaw 1: A6:2017 - Security Misconfiguration
 
