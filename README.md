@@ -2,9 +2,18 @@
 
 ## Software with security flaws
 
-The objective of this project is to build a software with five or more **OWASP Top Ten** flaws. Once the faulty software has been built, instructions for fixing the flaws will be provided. 
+The objective of this project is to build a software with five or more [**OWASP Top Ten**](https://owasp.org/www-project-top-ten/) flaws. Once the faulty software has been built, instructions for fixing the flaws will be provided. 
 
 More information about the course can be found here: https://cybersecuritybase.mooc.fi/module-3.1
+
+## Installation
+
+- Open your terminal and cd to the folder where you want the software to be installed
+- (Assuming you have git installed) Execute the following command:
+`git clone git@github.com:tonimobin/cyber-security-base-2022.git`
+- Step 3
+- Step 4
+- Step 5
 
 ## Flaw 1: A6:2017 - Security Misconfiguration
 
@@ -24,7 +33,5 @@ https://github.com/tonimobin/cyber-security-base-2022/blob/b9ff5473027c61742334d
 ## Flaw 4: 
 
 ## Flaw 5: 
-
-Software with security flaws, as a part of the course "Cyber Security Base 2022, Project I", which can be found here: https://cybersecuritybase.mooc.fi/module-3.1
 
 
