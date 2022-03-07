@@ -37,7 +37,19 @@ In regards to the password validation, improvement could be achieved by various 
 `{ 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator' }`
 
 
-## Flaw 2: 
+## Flaw 2: A10:2017 - Insufficient Logging & Monitoring
+
+###### Problem: 
+When your software becomes a target of an attack, it is extremely important to become aware of this attack before the system is breached. Logging plays a major role in preventing breaches by alerting the system administrator of suspicious activity. If there is no logging, the attacker is essentially given a peaceful environment to hone their attack further.
+
+In this software the logging has been disabled as can be seen below. If there was an attack such as the one described in Flaw #1 (a brute-force script that guesses passwords), there would be thousands if not hunders of thousands of logging attempts. When there is no logging, the system administrator is not aware of these logging attempts. If they became aware of these attempts, they'd know that they are under an attack and could then act accordingly. 
+
+###### Location: 
+https://github.com/tonimobin/cyber-security-base-2022/blob/14b9cc93bba3b94b96cec5c680a838df3a90dc0b/noteproject/noteproject/settings.py#L123-L135
+
+
+###### Fix: 
+In this software you could simply turn the `disable_existing_loggers` from `True` to `False` and you'd get some basic logging. Building a robust logging system is a more complex task that should be kept in mind throughout the development life cycle. Some core concepts that should kept in mind are unmodifiability of the logs, the intruder should not be able to modify the logs. Time stamps are vital as well, because with their aid it's possible to re-construct events and thus understand the causes and effects of different actions that have happened in the system. 
 
 ## Flaw 3: 
 
