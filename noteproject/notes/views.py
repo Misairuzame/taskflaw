@@ -3,6 +3,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 
 # Create your views here.
+def noteList(request):
+    return HttpResponse("This is where my notes are.")
+
 def index(request):
     return HttpResponse("Hello, world. You're at the notes index.")
 
