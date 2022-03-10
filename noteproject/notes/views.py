@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 from .models import Note
 
@@ -18,6 +18,11 @@ class NoteDetail(DetailView):
     template_name = 'notes/note.html'
 
 class NoteCreate(CreateView):
+    model = Note
+    fields = '__all__'
+    success_url = reverse_lazy('notes')
+
+class NoteUpdate(UpdateView):
     model = Note
     fields = '__all__'
     success_url = reverse_lazy('notes')
