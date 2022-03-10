@@ -1,8 +1,8 @@
 from unicodedata import name
 from django.urls import path
-from . import views
+from .views import NoteList, NoteDetail
 
 urlpatterns = [
-    path('', views.noteList, name='notes'),
-    path('login/', views.login_user, name="login"),
+    path('', NoteList.as_view(), name='notes'),
+    path('note/<int:pk>/', NoteDetail.as_view(), name='note'),
 ]

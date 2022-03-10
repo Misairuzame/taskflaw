@@ -1,0 +1,16 @@
+<h1>My Notes</h1>
+
+<table>
+    <tr>
+        <th>Item</th>
+        <th></th>
+    </tr>
+    {% for note in notes %}
+    <tr>
+        <td>{{note.title}}</td>
+        <td><a href="{% url 'note' note.id %}">View</a></td>
+    </tr>
+    {% empty %}
+        <h3>No notes in list</h3>
+    {% endfor %}
+</table>
