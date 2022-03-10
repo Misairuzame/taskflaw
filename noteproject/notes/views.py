@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -17,7 +18,7 @@ class CustomLoginView(LoginView):
     def get_success_url(self):
         return reverse_lazy('notes')
 
-class NoteList(ListView):
+class NoteList(LoginRequiredMixin, ListView):
     model = Note
     context_object_name = 'notes'
 

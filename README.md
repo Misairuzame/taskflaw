@@ -51,7 +51,22 @@ https://github.com/tonimobin/cyber-security-base-2022/blob/14b9cc93bba3b94b96cec
 ###### Fix: 
 In this software you could simply turn the `disable_existing_loggers` from `True` to `False` and you'd get some basic logging. Building a robust logging system is a more complex task that should be kept in mind throughout the development life cycle. Some core concepts that should kept in mind are unmodifiability of the logs, the intruder should not be able to modify the logs. Time stamps are vital as well, because with their aid it's possible to re-construct events and thus understand the causes and effects of different actions that have happened in the system. 
 
-## Flaw 3: 
+## Flaw 3: A5:2017 - Broken Access Control
+
+###### Problem: 
+Broken access control refers to situations where resources on the server are accessible when they shouldn't be. Situations like this may arise from various different events, but are often related to loose specification of user rights or functions which can be executed without adequate rights. 
+
+In this application, it's currently possible to access notes of different users via url modification. This is not desirable as if the data is sensitive, surely you wouldn't want random people accessing it.
+
+###### Location: 
+https://github.com/tonimobin/cyber-security-base-2022/blob/0e73413559813884a99abe660a96d20542f62dd5/noteproject/notes/views.py#L24-L27
+
+
+###### Fix: 
+To fix broken access control related issues, extra attention should be paid towards testing different views and making sure sensitive data is accessible only by suitable user groups. To fix the BAC issue in this software, you can restrict accessibility of the individual notes by, in this case, adding a `LoginRequiredMixin` to the class associated with the vulnerability - in this case the NoteDetail. After the edition the class definition would look like this:
+
+`class NoteDetail(LoginRequiredMixin, DetailView)`
+
 
 ## Flaw 4: 
 
