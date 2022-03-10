@@ -22,22 +22,33 @@ class NoteList(LoginRequiredMixin, ListView):
     model = Note
     context_object_name = 'notes'
 
-class NoteDetail(DetailView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['notes'] = context['notes'].filter(user=self.request.user)
+        context['count'] = context['notes'].filter(complete=False).count()
+        return context
+
+# Remove LoginRequiredMixin in order to introduce the BAC vulnerability
+class NoteDetail(LoginRequiredMixin, DetailView):
     model = Note
     context_object_name = 'note'
     template_name = 'notes/note.html'
 
-class NoteCreate(CreateView):
+class NoteCreate(LoginRequiredMixin, CreateView):
     model = Note
-    fields = '__all__'
+    fields = ['title', 'description', 'complete']
     success_url = reverse_lazy('notes')
 
-class NoteUpdate(UpdateView):
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(NoteCreate, self).form_valid(form)
+
+class NoteUpdate(LoginRequiredMixin, UpdateView):
     model = Note
-    fields = '__all__'
+    fields = ['title', 'description', 'complete']
     success_url = reverse_lazy('notes')
 
-class NoteDelete(DeleteView):
+class NoteDelete(LoginRequiredMixin, DeleteView):
     model = Note
     context_object_name = 'note'
     success_url = reverse_lazy('notes')

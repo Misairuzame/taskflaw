@@ -63,11 +63,11 @@ https://github.com/tonimobin/cyber-security-base-2022/blob/0e73413559813884a99ab
 
 
 ###### Fix: 
-To fix broken access control related issues, extra attention should be paid towards testing different views and making sure sensitive data is accessible only by suitable user groups. To fix the BAC issue in this software, you can restrict accessibility of the individual notes by, in this case, adding a `LoginRequiredMixin` to the class associated with the vulnerability - in this case the NoteDetail. After the edition the class definition would look like this:
+To fix broken access control related issues, extra attention should be paid towards testing different views and making sure sensitive data is accessible only by suitable user groups. To fix the BAC issue in this software, you can restrict accessibility of the individual notes by, in this case, adding a `LoginRequiredMixin` to the class associated with the vulnerability - in this case the NoteDetail. After the edit, the class definition would look like this:
 
 `class NoteDetail(LoginRequiredMixin, DetailView)`
 
-
+This will limit the accessability of the notes to authenticated users only.
 ## Flaw 4: 
 
 ## Flaw 5: 
