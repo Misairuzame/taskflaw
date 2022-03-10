@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Note
 
@@ -25,6 +25,11 @@ class NoteCreate(CreateView):
 class NoteUpdate(UpdateView):
     model = Note
     fields = '__all__'
+    success_url = reverse_lazy('notes')
+
+class NoteDelete(DeleteView):
+    model = Note
+    context_object_name = 'note'
     success_url = reverse_lazy('notes')
 
 def login_user(request):
