@@ -1,7 +1,16 @@
-<h3>Note Form</h3>
-<a href="{% url 'notes' %}">Go back</a>
-<form method="POST" action="">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Submit">
-</form>
+{% extends 'notes/main.html' %}
+{% block content %}
+
+<div class="header-bar">
+    <a href="{% url 'notes' %}">&#8592;</a>
+</div>
+
+<div class="card-body">
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input class="button" type="submit" value="Submit">
+    </form>
+</div>
+
+{% endblock content %}
