@@ -1,3 +1,4 @@
+from re import search
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView
@@ -44,6 +45,14 @@ class NoteList(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['notes'] = context['notes'].filter(user=self.request.user)
         context['count'] = context['notes'].filter(complete=False).count()
+
+        search_input = self.request.GET.get('search-area') or ''
+        if search_input:
+            context['notes'] = context['notes'].filter(
+                title__startswith=search_input)
+
+        context['search_input'] = search_input
+
         return context
 
 # Remove LoginRequiredMixin in order to introduce the BAC vulnerability

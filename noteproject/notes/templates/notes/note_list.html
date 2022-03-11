@@ -7,7 +7,12 @@
 
 <hr>
 <h1>My Notes</h1>
-<a href="{% url 'note-create' %}"">Add Note</a>
+<a href="{% url 'note-create' %}">Add Note</a>
+
+<form method="GET">
+    <input type="text" name="search-area" value="{{search_input}}">
+    <input type="submit" value="Search">
+</form>
 
 <table>
     <tr>
