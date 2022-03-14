@@ -18,10 +18,12 @@ More information about the course can be found here: https://cybersecuritybase.m
 1. Open your terminal and cd to the folder where you want the software to be installed
 2. (Assuming you have git installed) Execute the following command: <br/>
 `git clone git@github.com:tonimobin/cyber-security-base-2022.git`
-3. (Assuming you have Django & Python installed) cd to the project folder and start the server with the following command: <br/>
-`python manage.py runserver`
-4. Go to 'localhost:8000' in your browser and the application should be running.
-5. If you run into any issues, refer to the [Installation guide](https://cybersecuritybase.mooc.fi/installation-guide) - I've tried to explain the problems in such manner that running the project is not 100% required, in case you are not able to get it running.
+3. (Assuming you have Django & Python installed) cd to the project folder and  proceed to folder `noteproject/`
+4. Start the server with the following command: <br/>
+`python3 manage.py runserver`
+4. Go to 'localhost:8000' in your browser and the application should be running (make sure other applications aren't running on port 8000)
+5. Feel free to create a new user and some notes or use an existing user (Username: Joe, Password: JoePassword)
+6. If you run into any issues, refer to the [Installation guide](https://cybersecuritybase.mooc.fi/installation-guide) - I've tried to explain the problems in such manner that running the project is not 100% required, in case you are not able to get it running.
 
 ## Flaw 1: A03:2017 - Sensitive Data Exposure
 
@@ -40,12 +42,12 @@ https://github.com/tonimobin/cyber-security-base-2022/blob/02c01a280607606b546ce
 It would be a good idea to use a more secure way of transportation, such as SSL or HTTPS. When using these, the data will be sent in encrypted format and if hijacked, the hijacker can't make sense of the data because they won't have the required key to decrypt the data. 
 
 
-## Flaw 2: A07:2017 - Cross-Site Scripting(XSS):
+## Flaw 2: A07:2017 - Cross-Site Scripting (XSS):
 
 ###### Problem: 
 Cross-site scripting (XSS) refers to a situation, where the attacker is able to place malicious code into a site, which is then executed on the victims machine. Situations like this may arise from differents sorts of inputs and search functionalities - basically anything where the user is able to enter input in some form and then this input isn't handled properly.
 
-In this application, when creating a new note - the title field is not sanitized, which means it's possible to enter malicious code and have it execute when the new note is submitted. You could for example enter the following title and once you submit the note, an alert will pop up.
+In this application, when creating a new uncomplete note - the title field is not sanitized, which means it's possible to enter malicious code and have it execute when the new note is submitted. You could for example enter the following title and once you submit the note, an alert will pop up. Please note, that if you mark the note as complete, the script will not be executed as it will be rendered as a part of the note.
 
 `Remember to buy pasta<script>alert('This could have been malicious code!');</script>.`
 
@@ -62,7 +64,9 @@ Using Django provided templates should protect you quite well, in this example t
 ###### Problem: 
 Broken access control refers to situations where resources on the server are accessible when they shouldn't be. Situations like this may arise from various different events, but are often related to loose specification of user rights or functions which can be executed without adequate rights. 
 
-In this application, it's currently possible to access notes of different users via url modification. This is not desirable as if the data is sensitive, surely you wouldn't want random people accessing it.
+In this application, it's currently possible to access notes of different users via url modification. This is not desirable as if the data is sensitive, surely you wouldn't want random people accessing it. You could for example access the second note in the database via the following url (even when not logged in on any user):
+
+`http://localhost:8000/note/2/` 
 
 ###### Location: 
 https://github.com/tonimobin/cyber-security-base-2022/blob/0e73413559813884a99abe660a96d20542f62dd5/noteproject/notes/views.py#L24-L27
