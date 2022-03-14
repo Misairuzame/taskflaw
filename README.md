@@ -2,26 +2,35 @@
 
 ## Software with security flaws
 
-The objective of this project is to build a software with five or more [**OWASP Top Ten**](https://owasp.org/www-project-top-ten/) flaws. Once the faulty software has been built, instructions for fixing the flaws will be provided. 
+The objective of this project is to build a small application with five or more [**OWASP Top Ten**](https://owasp.org/www-project-top-ten/) flaws. Once the faulty software has been built, instructions for fixing the flaws will be provided. 
 
 More information about the course can be found here: https://cybersecuritybase.mooc.fi/module-3.1
+## Pictures of the software, a small note/task application with basic CRUD functionalities
+
+![Screenshot 2022-03-14 at 15 31 28](https://user-images.githubusercontent.com/85210617/158183129-d7a6d047-d1b1-4259-8e51-721d6ad35424.png)
+
+![Screenshot 2022-03-14 at 15 31 04](https://user-images.githubusercontent.com/85210617/158183156-62b158a2-9bca-414e-9e3b-0a33bda63491.png)
+
+![Screenshot 2022-03-14 at 15 33 44](https://user-images.githubusercontent.com/85210617/158183216-37b21993-f10d-470d-9a67-e54bb796ec8e.png)
 
 ## Installation
 
 1. Open your terminal and cd to the folder where you want the software to be installed
 2. (Assuming you have git installed) Execute the following command: <br/>
 `git clone git@github.com:tonimobin/cyber-security-base-2022.git`
-3. Step 3
-4. Step 4
-5. Step 5
+3. (Assuming you have Django & Python installed) cd to the project folder and start the server with the following command: <br/>
+`python manage.py runserver`
+4. Go to 'localhost:8000' in your browser and the application should be running.
+5. If you run into any issues, refer to the [Installation guide](https://cybersecuritybase.mooc.fi/installation-guide) - I've tried to explain the problems in such manner that running the project is not 100% required, in case you are not able to get it running.
 
 ## Flaw 1: A03:2017 - Sensitive Data Exposure
 
 ###### Problem: 
 Sensitive Data Exposure (SDE) refers to situations, where sensitive data is not protected properly. Sensitive data could be passwords, corporate secrets, basically anything you wouldn't want 'outsiders' to get access to. It's common that some data may seem secure, but in one way or another it's leaking - maybe it's transported to the server in an insecure way and the data can be hijacked during the transportation. Maybe it's stored in plain text, which is something you do not want to do. Encryption of some sort is necessary.
 
-In this application, during login process, the user data is transported without proper encryption (via HTTP) and the data contained in the POST method (username and password) can be hijacked. When the hijacker looks at the data, they'll see the username and password in plain text. In the picture below you can see a Wireshark capture, where the user 'Joe' logs in to the application. His password is 'JoePassword'. Both the username and the password can be seen in plain text.![Screenshot 2022-03-14 at 11 00 34](https://user-images.githubusercontent.com/85210617/158142284-f1317501-dd92-42b8-a77f-1f4b9958240e.png)
+In this application, during login process, the user data is transported without proper encryption (via HTTP) and the data contained in the POST method (username and password) can be hijacked. When the hijacker looks at the data, they'll see the username and password in plain text. In the picture below you can see a Wireshark capture, where the user 'Joe' logs in to the application. His password is 'JoePassword'. Both the username and the password can be seen in plain text.
 
+![Screenshot 2022-03-14 at 11 00 34](https://user-images.githubusercontent.com/85210617/158142284-f1317501-dd92-42b8-a77f-1f4b9958240e.png)
 
 ###### Location: 
 
@@ -34,18 +43,19 @@ It would be a good idea to use a more secure way of transportation, such as SSL 
 ## Flaw 2: A07:2017 - Cross-Site Scripting(XSS):
 
 ###### Problem: 
-Cross-site scripting (XSS) refers to a situation, where the attacker is able to place malicious code into a site, which is then executed on the victims machine. Situations like this may rise from differents sort of inputs, search functionalities - basically anything where the user is able to enter input in some form and then this input isn't handled properly.
+Cross-site scripting (XSS) refers to a situation, where the attacker is able to place malicious code into a site, which is then executed on the victims machine. Situations like this may arise from differents sorts of inputs and search functionalities - basically anything where the user is able to enter input in some form and then this input isn't handled properly.
 
-In this application, when entering a new note - the title field is not sanitized, which means it's possible to enter malicious code and have it execute when the new note is submitted. You could for example enter the following title and once you submit the note, an alert will pop up.
+In this application, when creating a new note - the title field is not sanitized, which means it's possible to enter malicious code and have it execute when the new note is submitted. You could for example enter the following title and once you submit the note, an alert will pop up.
 
 `Remember to buy pasta<script>alert('This could have been malicious code!');</script>.`
 
 
 ###### Location: 
 
+https://github.com/tonimobin/cyber-security-base-2022/blob/f242ef460efcb9bd3b992c3df1ca015a1e4a63a3/noteproject/notes/templates/notes/note_list.html#L36-L39
 
 ###### Fix: 
-Using Django provided templates should protect you quite well, in this example the vulnerability was induced by the use of the safe-keyword. So be careful, if you use it.
+Using Django provided templates should protect you quite well, in this example the vulnerability was induced by the use of the safe-keyword. So be careful, if you use it. In this case, you can simply remove the safe pipe from line 38 and after the removal, the script will be processed as a string when submitted and thus no longer executable.
 
 ## Flaw 3: A05:2017 - Broken Access Control
 
@@ -100,5 +110,3 @@ https://github.com/tonimobin/cyber-security-base-2022/blob/14b9cc93bba3b94b96cec
 
 ###### Fix: 
 In this software you could simply turn the `disable_existing_loggers` from `True` to `False` and you'd get some basic logging. Building a robust logging system is a more complex task that should be kept in mind throughout the development life cycle. Some core concepts that should kept in mind are unmodifiability of the logs, the intruder should not be able to modify the logs. Time stamps are vital as well, because with their aid it's possible to re-construct events and thus understand the causes and effects of different actions that have happened in the system. 
-
- 
