@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Notes</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Bakbak+One&family=Nunito:wght@200&display=swap" rel="stylesheet">
-        <style>
-            body {
+
+<head>
+    <title>Notes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bakbak+One&family=Fira+Code:wght@300&family=Nunito:wght@200&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
                 background-color: #FAFAFA;
-                font-family: 'Nunito', sans-serif;
+                font-family: 'Fira Code', monospace;
                 padding-top: 50px;
             }
 
@@ -18,7 +21,9 @@
             h4,
             h5,
             h6 {
-                font-family: 'Raleway', sans-serif;
+                font-family: 'Fira code', monospace;
+                font-weight: normal;
+                margin-bottom: 5px;
             }
 
             a,
@@ -26,7 +31,7 @@
                 color: #4b5156;
             }
             .container {
-                max-width: 550px;
+                max-width: 450px;
                 margin: auto;
                 background-color: #fff;
                 -webkit-box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.21);
@@ -39,7 +44,7 @@
                 color: #fff;
                 padding: 10px;
                 border-radius: 5px 5px 0 0;
-                background: linear-gradient(90deg, #EEA390 0%, #EB796F 43%, #EB796F 100%);
+                background: linear-gradient(90deg, #90a3ee 0%, #756feb 43%, #756feb 100%);
             }
 
             .header-bar a {
@@ -83,7 +88,7 @@
             .delete-link {
                 text-decoration: none;
                 font-weight: 900;
-                color: #cf4949;
+                color: #4954cf;
                 font-size: 22px;
                 line-height: 0;
             }
@@ -96,19 +101,21 @@
             }
 
             #add-link {
-                color: #EB796F;
+                color: #90a3ee;
                 text-decoration: none;
                 font-size: 42px;
-                text-shadow: 1px 1px #81413b;
+                text-shadow: 1px 1px #3b4b81;
             }
 
             input[type=text],
             input[type=password],
             textarea {
-                border: 1px solid #EB796F;
+                font-family: 'Fira code', monospace;
+                border: 1px solid #90a3ee;
                 border-radius: 5px;
                 padding: 10px;
                 width: 90%;
+                height: auto;
             }
 
             label {
@@ -117,14 +124,15 @@
             }
 
             .button {
-                border: 1px solid #EB796F;
+                border: 1px solid #90a3ee;
                 background-color: #FAFAFA;
-                color: #EB796F;
-                padding: 10px;
+                color: #90a3ee;
+                padding: 8px;
                 font-size: 14px;
                 border-radius: 5px;
                 cursor: pointer;
                 text-decoration: none;
+                margin-left: 5px;
             }
 
             .card-body {

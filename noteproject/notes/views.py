@@ -56,7 +56,7 @@ class NoteList(LoginRequiredMixin, ListView):
         return context
 
 # Remove LoginRequiredMixin in order to introduce the BAC vulnerability
-class NoteDetail(LoginRequiredMixin, DetailView):
+class NoteDetail(DetailView):
     model = Note
     context_object_name = 'note'
     template_name = 'notes/note.html'
