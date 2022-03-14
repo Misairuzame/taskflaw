@@ -73,9 +73,11 @@ This will limit the accessability of the notes to authenticated users only.
 ###### Problem: 
 Sensitive Data Exposure (SDE) refers to situations, where sensitive data is not protected properly. Sensitive data could be passwords, corporate secrets, basically anything you wouldn't want 'outsiders' to get access to. It's common that some data may seem secure, but in one way or another it's leaking - maybe it's transported to the server in an insecure way and the data can be hijacked during the transportation. Maybe it's stored in plain text, which is something you do not want to do. Encryption of some sort is necessary.
 
-In this application, during login process, the user data is transported without proper encryption (via HTTP) and the data contained in the POST method (username and password) can be hijacked. When the hijacker looks at the data, they'll see the username and password in plain text.
+In this application, during login process, the user data is transported without proper encryption (via HTTP) and the data contained in the POST method (username and password) can be hijacked. When the hijacker looks at the data, they'll see the username and password in plain text. In the picture below you can see a Wireshark capture, where the user 'Joe' logs in to the application. His password is 'JoePassword'. Both the username and the password can be seen in plain text.![Screenshot 2022-03-14 at 11 00 34](https://user-images.githubusercontent.com/85210617/158142284-f1317501-dd92-42b8-a77f-1f4b9958240e.png)
+
 
 ###### Location: 
+https://github.com/tonimobin/cyber-security-base-2022/blob/02c01a280607606b546ce522c0b2c61fef95b12a/noteproject/notes/templates/notes/login.html#L7-L14
 
 ###### Fix: 
 It would be a good idea to use a more secure way of transportation, such as SSL or HTTPS. When using these, the data will be sent in encrypted format and if hijacked, the hijacker can't make sense of the data because they won't have the required key to decrypt the data. 
