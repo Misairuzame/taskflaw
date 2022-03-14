@@ -35,7 +35,7 @@
         {% else %}
         <div class="note-title">
             <div class="note-incomplete-icon"></div>
-            <a href="{% url 'note-update' note.id %}">{{note}}</a>
+            <a href="{% url 'note-update' note.id %}">{{note|safe}}</a>
         </div>
         <a class="delete-link" href="{% url 'note-delete' note.id %}">&#215;</a>
         {% endif %}

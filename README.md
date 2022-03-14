@@ -15,7 +15,57 @@ More information about the course can be found here: https://cybersecuritybase.m
 4. Step 4
 5. Step 5
 
-## Flaw 1: A6:2017 - Security Misconfiguration
+## Flaw 1: A03:2017 - Sensitive Data Exposure
+
+###### Problem: 
+Sensitive Data Exposure (SDE) refers to situations, where sensitive data is not protected properly. Sensitive data could be passwords, corporate secrets, basically anything you wouldn't want 'outsiders' to get access to. It's common that some data may seem secure, but in one way or another it's leaking - maybe it's transported to the server in an insecure way and the data can be hijacked during the transportation. Maybe it's stored in plain text, which is something you do not want to do. Encryption of some sort is necessary.
+
+In this application, during login process, the user data is transported without proper encryption (via HTTP) and the data contained in the POST method (username and password) can be hijacked. When the hijacker looks at the data, they'll see the username and password in plain text. In the picture below you can see a Wireshark capture, where the user 'Joe' logs in to the application. His password is 'JoePassword'. Both the username and the password can be seen in plain text.![Screenshot 2022-03-14 at 11 00 34](https://user-images.githubusercontent.com/85210617/158142284-f1317501-dd92-42b8-a77f-1f4b9958240e.png)
+
+
+###### Location: 
+
+https://github.com/tonimobin/cyber-security-base-2022/blob/02c01a280607606b546ce522c0b2c61fef95b12a/noteproject/notes/templates/notes/login.html#L7-L14
+
+###### Fix: 
+It would be a good idea to use a more secure way of transportation, such as SSL or HTTPS. When using these, the data will be sent in encrypted format and if hijacked, the hijacker can't make sense of the data because they won't have the required key to decrypt the data. 
+
+
+## Flaw 2: A07:2017 - Cross-Site Scripting(XSS):
+
+###### Problem: 
+Cross-site scripting (XSS) refers to a situation, where the attacker is able to place malicious code into a site, which is then executed on the victims machine. Situations like this may rise from differents sort of inputs, search functionalities - basically anything where the user is able to enter input in some form and then this input isn't handled properly.
+
+In this application, when entering a new note - the title field is not sanitized, which means it's possible to enter malicious code and have it execute when the new note is submitted. You could for example enter the following title and once you submit the note, an alert will pop up.
+
+`Remember to buy pasta<script>alert('This could have been malicious code!');</script>.`
+
+
+###### Location: 
+
+
+###### Fix: 
+Using Django provided templates should protect you quite well, in this example the vulnerability was induced by the use of the safe-keyword. So be careful, if you use it.
+
+## Flaw 3: A05:2017 - Broken Access Control
+
+###### Problem: 
+Broken access control refers to situations where resources on the server are accessible when they shouldn't be. Situations like this may arise from various different events, but are often related to loose specification of user rights or functions which can be executed without adequate rights. 
+
+In this application, it's currently possible to access notes of different users via url modification. This is not desirable as if the data is sensitive, surely you wouldn't want random people accessing it.
+
+###### Location: 
+https://github.com/tonimobin/cyber-security-base-2022/blob/0e73413559813884a99abe660a96d20542f62dd5/noteproject/notes/views.py#L24-L27
+
+
+###### Fix: 
+To fix broken access control related issues, extra attention should be paid towards testing different views and making sure sensitive data is accessible only by suitable user groups. To fix the BAC issue in this software, you can restrict accessibility of the individual notes by, in this case, adding a `LoginRequiredMixin` to the class associated with the vulnerability - in this case the NoteDetail. After the edit, the class definition would look like this:
+
+`class NoteDetail(LoginRequiredMixin, DetailView)`
+
+This will limit the accessibility of the notes to authenticated users only.
+
+## Flaw 4: A06:2017 - Security Misconfiguration
 
 ###### Problem: 
 Security misconfiguration refers to a wide area of problems. Often related to improperly configured permissions, default settings, problematic error handling and out-of-date components. It is clear that many of the errors done in this area might go unnoticed, as even default settings may cause security issues in certain situations.
@@ -37,7 +87,7 @@ In regards to the password validation, improvement could be achieved by various 
 `{ 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator' }`
 
 
-## Flaw 2: A10:2017 - Insufficient Logging & Monitoring
+## Flaw 5: A10:2017 - Insufficient Logging & Monitoring
 
 ###### Problem: 
 When your software becomes a target of an attack, it is extremely important to become aware of this attack before the system is breached. Logging plays a major role in preventing breaches by alerting the system administrator of suspicious activity. If there is no logging, the attacker is essentially given a peaceful environment to hone their attack further.
@@ -51,38 +101,4 @@ https://github.com/tonimobin/cyber-security-base-2022/blob/14b9cc93bba3b94b96cec
 ###### Fix: 
 In this software you could simply turn the `disable_existing_loggers` from `True` to `False` and you'd get some basic logging. Building a robust logging system is a more complex task that should be kept in mind throughout the development life cycle. Some core concepts that should kept in mind are unmodifiability of the logs, the intruder should not be able to modify the logs. Time stamps are vital as well, because with their aid it's possible to re-construct events and thus understand the causes and effects of different actions that have happened in the system. 
 
-## Flaw 3: A5:2017 - Broken Access Control
-
-###### Problem: 
-Broken access control refers to situations where resources on the server are accessible when they shouldn't be. Situations like this may arise from various different events, but are often related to loose specification of user rights or functions which can be executed without adequate rights. 
-
-In this application, it's currently possible to access notes of different users via url modification. This is not desirable as if the data is sensitive, surely you wouldn't want random people accessing it.
-
-###### Location: 
-https://github.com/tonimobin/cyber-security-base-2022/blob/0e73413559813884a99abe660a96d20542f62dd5/noteproject/notes/views.py#L24-L27
-
-
-###### Fix: 
-To fix broken access control related issues, extra attention should be paid towards testing different views and making sure sensitive data is accessible only by suitable user groups. To fix the BAC issue in this software, you can restrict accessibility of the individual notes by, in this case, adding a `LoginRequiredMixin` to the class associated with the vulnerability - in this case the NoteDetail. After the edit, the class definition would look like this:
-
-`class NoteDetail(LoginRequiredMixin, DetailView)`
-
-This will limit the accessability of the notes to authenticated users only.
-## Flaw 4: A3:2017 - Sensitive Data Exposure
-
-###### Problem: 
-Sensitive Data Exposure (SDE) refers to situations, where sensitive data is not protected properly. Sensitive data could be passwords, corporate secrets, basically anything you wouldn't want 'outsiders' to get access to. It's common that some data may seem secure, but in one way or another it's leaking - maybe it's transported to the server in an insecure way and the data can be hijacked during the transportation. Maybe it's stored in plain text, which is something you do not want to do. Encryption of some sort is necessary.
-
-In this application, during login process, the user data is transported without proper encryption (via HTTP) and the data contained in the POST method (username and password) can be hijacked. When the hijacker looks at the data, they'll see the username and password in plain text. In the picture below you can see a Wireshark capture, where the user 'Joe' logs in to the application. His password is 'JoePassword'. Both the username and the password can be seen in plain text.![Screenshot 2022-03-14 at 11 00 34](https://user-images.githubusercontent.com/85210617/158142284-f1317501-dd92-42b8-a77f-1f4b9958240e.png)
-
-
-###### Location: 
-https://github.com/tonimobin/cyber-security-base-2022/blob/02c01a280607606b546ce522c0b2c61fef95b12a/noteproject/notes/templates/notes/login.html#L7-L14
-
-###### Fix: 
-It would be a good idea to use a more secure way of transportation, such as SSL or HTTPS. When using these, the data will be sent in encrypted format and if hijacked, the hijacker can't make sense of the data because they won't have the required key to decrypt the data. 
-
-
-## Flaw 5: 
-
-
+ 
