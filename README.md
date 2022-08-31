@@ -5,6 +5,8 @@
 The objective of this project is to build a small application with five or more [**OWASP Top Ten**](https://owasp.org/www-project-top-ten/) flaws. Once the faulty software has been built, instructions for fixing the flaws will be provided. 
 
 More information about the course can be found here: https://cybersecuritybase.mooc.fi/module-3.1
+
+Also, big portion of this project is based on [this](https://www.youtube.com/watch?v=llbtoQTt4qw) great tutorial!
 ## Pictures of the software, a small note/task application with basic CRUD functionalities
 
 ![Screenshot 2022-03-14 at 15 31 28](https://user-images.githubusercontent.com/85210617/158183129-d7a6d047-d1b1-4259-8e51-721d6ad35424.png)
