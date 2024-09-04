@@ -11,6 +11,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.urls import reverse_lazy
 from .models import Note
 
+
 # Create your views here.
 class CustomLoginView(LoginView):
     template_name = 'notes/login.html'
@@ -19,6 +20,7 @@ class CustomLoginView(LoginView):
 
     def get_success_url(self):
         return reverse_lazy('notes')
+
 
 class RegisterPage(FormView):
     template_name = 'notes/register.html'
@@ -37,6 +39,7 @@ class RegisterPage(FormView):
             return redirect('notes')
         return super(RegisterPage, self).get(*args, **kwargs)
 
+
 class NoteList(LoginRequiredMixin, ListView):
     model = Note
     context_object_name = 'notes'
@@ -48,18 +51,26 @@ class NoteList(LoginRequiredMixin, ListView):
 
         search_input = self.request.GET.get('search-area') or ''
         if search_input:
-            context['notes'] = context['notes'].filter(
-                title__startswith=search_input)
+
+            # context['notes'] = context['notes'].filter(
+            #    title__startswith=search_input)
+            # Directly use raw SQL query without sanitization
+            context['notes'] = Note.objects.raw(
+                f"SELECT * FROM notes_note WHERE user_id = {self.request.user.id}"
+                f" AND title LIKE '{search_input}%'"
+            )
 
         context['search_input'] = search_input
 
         return context
+
 
 # Remove LoginRequiredMixin in order to introduce the BAC vulnerability
 class NoteDetail(DetailView):
     model = Note
     context_object_name = 'note'
     template_name = 'notes/note.html'
+
 
 class NoteCreate(LoginRequiredMixin, CreateView):
     model = Note
@@ -70,10 +81,12 @@ class NoteCreate(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super(NoteCreate, self).form_valid(form)
 
+
 class NoteUpdate(LoginRequiredMixin, UpdateView):
     model = Note
     fields = ['title', 'description', 'complete']
     success_url = reverse_lazy('notes')
+
 
 class NoteDelete(LoginRequiredMixin, DeleteView):
     model = Note
