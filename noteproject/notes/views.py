@@ -51,10 +51,6 @@ class NoteList(LoginRequiredMixin, ListView):
 
         search_input = self.request.GET.get('search-area') or ''
         if search_input:
-
-            # context['notes'] = context['notes'].filter(
-            #    title__startswith=search_input)
-            # Directly use raw SQL query without sanitization
             context['notes'] = Note.objects.raw(
                 f"SELECT * FROM notes_note WHERE user_id = {self.request.user.id}"
                 f" AND title LIKE '{search_input}%'"
