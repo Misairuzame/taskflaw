@@ -24,6 +24,16 @@ Also, big portion of this project is based on [this](https://www.youtube.com/wat
 	    `source <venv>/bin/activate` 
 4. Install the packages from the `requirements.txt` file:
 	`pip install -r requirements.txt`
+
+## Docker
+
+### Building and running your application
+
+When you're ready, start your application by running:
+`docker compose up --build`.
+
+Your application will be available at http://localhost:8000.
+
 ## Usage
 
 1. Start the server with the following command:

@@ -1,19 +1,31 @@
-# Dockerfile
+# syntax=docker/dockerfile:1
 
-# The first instruction is what image we want to base our container on
-# We Use an official Python runtime as a parent image
-FROM python:3.12
+ARG PYTHON_VERSION=3.12.3
+FROM python:${PYTHON_VERSION}-slim as builder
 
-# Allows docker to cache installed dependencies between builds
-COPY requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Prevents Python from writing pyc files.
+ENV PYTHONDONTWRITEBYTECODE=1
 
-# Mounts the application code to the image
-COPY . noteproject
-WORKDIR noteproject
+# Keeps Python from buffering stdout and stderr to avoid situations where
+# the application crashes without emitting any logs due to buffering.
+ENV PYTHONUNBUFFERED=1
 
+WORKDIR /noteproject
+
+# Download dependencies as a separate step to take advantage of Docker's caching.
+# Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
+# Leverage a bind mount to requirements.txt to avoid having to copy them into
+# into this layer.
+RUN --mount=type=cache,target=/root/.cache/pip \
+    --mount=type=bind,source=requirements.txt,target=requirements.txt \
+    python -m pip install -r requirements.txt
+
+# Copy the source code into the container.
+COPY . /noteproject
+
+# Expose the port that the application listens on.
 EXPOSE 8000
 
-# runs the production server
+# runs the application
 ENTRYPOINT ["python", "manage.py"]
 CMD ["runserver", "0.0.0.0:8000"]

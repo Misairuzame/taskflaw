@@ -1,7 +1,8 @@
 services:
-  web:
+  web: 
     build:
       context: noteproject
       dockerfile: Dockerfile
-    ports:
+      target: builder
+    ports: 
       - '8000:8000'
