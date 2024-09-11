@@ -1,6 +1,7 @@
 # taskflaw
 
-The goal of this project is to integrate a DevSecOps pipeline. This includes:
+The goal of this project is to build an infrastructure that follows the DevOps pipeline while incorporating Security (Sec) practices.
+This includes:
 
 - Containerization
 - CI/CD Pipelines
@@ -8,15 +9,11 @@ The goal of this project is to integrate a DevSecOps pipeline. This includes:
 - Security Testing
 - Monitoring
 
-The Web App that will serve as sandbox environment is a fork of the [tonimobin/cyber-security-base-2022](https://github.com/tonimobin/cyber-security-base-2022) repository.
+![DevSecOps](https://images.contentstack.io/v3/assets/blt36c2e63521272fdc/bltd88a7a2bbf7463c7/63e6a271babb166bc7931cde/DevSecOps_Loop.png)
 
-## Pictures of the Web App, a small note/task application with basic CRUD functionalities
-
-![Screenshot 2022-03-14 at 15 31 28](https://user-images.githubusercontent.com/85210617/158183129-d7a6d047-d1b1-4259-8e51-721d6ad35424.png)
-
-![Screenshot 2022-03-14 at 15 31 04](https://user-images.githubusercontent.com/85210617/158183156-62b158a2-9bca-414e-9e3b-0a33bda63491.png)
-
-![Screenshot 2022-03-14 at 15 33 44](https://user-images.githubusercontent.com/85210617/158183216-37b21993-f10d-470d-9a67-e54bb796ec8e.png)
+The Software used as the sandbox environment is a fork of the [tonimobin/cyber-security-base-2022](https://github.com/tonimobin/cyber-security-base-2022) repository.
+This is a small note/task Web App with basic CRUD functionalities written in Python using Django framework, which it has been intentionally modified to include several common security vulnerabilities found in Web Applications.
+The flaws are based on the [OWASP Top 10](https://owasp.org/Top10/) list and are described more in detail below.
 
 ## Installation
 
