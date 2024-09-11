@@ -1,16 +1,16 @@
 # taskflaw
 
-The goal of this project is to integrate DevSecOps practices. This includes:
+The goal of this project is to integrate a DevSecOps pipeline. This includes:
 
-- CI/CD Pipelines
 - Containerization
+- CI/CD Pipelines
 - Deployment & Provisioning
 - Security Testing
 - Monitoring
 
-The Web App that will be used as a sandbox environment is a fork of the tonimobin/cyber-security-base-2022 repository.
+The Web App that will serve as sandbox environment is a fork of the [tonimobin/cyber-security-base-2022](https://github.com/tonimobin/cyber-security-base-2022) repository.
 
-## Pictures of the software, a small note/task application with basic CRUD functionalities
+## Pictures of the Web App, a small note/task application with basic CRUD functionalities
 
 ![Screenshot 2022-03-14 at 15 31 28](https://user-images.githubusercontent.com/85210617/158183129-d7a6d047-d1b1-4259-8e51-721d6ad35424.png)
 
