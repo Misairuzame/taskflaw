@@ -1,8 +1,15 @@
 # taskflaw
 
-The goal of this project is to develop a small application intentionally containing [**OWASP Top Ten**](https://owasp.org/www-project-top-ten/) vulnerabilities, followed by conducting DevSecOps testing to identify and mitigate these security flaws.
+The goal of this project is to integrate DevSecOps practices. This includes:
 
-Also, big portion of this project is based on [this](https://www.youtube.com/watch?v=llbtoQTt4qw) great tutorial!
+- CI/CD Pipelines
+- Containerization
+- Deployment & Provisioning
+- Security Testing
+- Monitoring
+
+The Web App that will be used as a sandbox environment is a fork of the tonimobin/cyber-security-base-2022 repository.
+
 ## Pictures of the software, a small note/task application with basic CRUD functionalities
 
 ![Screenshot 2022-03-14 at 15 31 28](https://user-images.githubusercontent.com/85210617/158183129-d7a6d047-d1b1-4259-8e51-721d6ad35424.png)
