@@ -12,8 +12,9 @@ This includes:
 ![DevSecOps](https://images.contentstack.io/v3/assets/blt36c2e63521272fdc/bltd88a7a2bbf7463c7/63e6a271babb166bc7931cde/DevSecOps_Loop.png)
 
 The Software used as the sandbox environment is a fork of the [tonimobin/cyber-security-base-2022](https://github.com/tonimobin/cyber-security-base-2022) repository.
-This is a small note/task Web App with basic CRUD functionalities written in Python using Django framework, which it has been intentionally modified to include several common security vulnerabilities found in Web Applications.
-The flaws are based on the [OWASP Top 10](https://owasp.org/Top10/) list and are described more in detail below.
+It is a simple note/task Web App with basic CRUD functionalities, written in Python using Django framework.
+This version has been intentionally modified to include several common security vulnerabilities found in Web Applications.
+These flaws are based on the [OWASP Top 10](https://owasp.org/Top10/) list and are described in more detail below.
 
 ## Installation
 
