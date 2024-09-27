@@ -37,6 +37,14 @@ USER appuser
 # Copy the source code into the container.
 COPY . /noteproject
 
+# Make app folder writeable for the sake of db.sqlite3, and make that file also writeable.
+# Ideally you host the database somewhere else so that the app folders can remain read only.
+# Without these permissions you see the errors "unable to open database file" and
+# "attempt to write to a readonly database", respectively, whenever the app attempts to
+# write to the database.
+RUN chmod g+w /noteproject
+RUN chmod g+w /noteproject/db.sqlite3
+
 # Expose the port that the application listens on.
 EXPOSE 8000
 
