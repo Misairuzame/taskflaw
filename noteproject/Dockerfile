@@ -12,10 +12,6 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /noteproject
 
-# Create a non-privileged user that the app will run under.
-# See https://docs.docker.com/go/dockerfile-user-best-practices/
-RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /noteproject
-
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
 # Leverage a bind mount to requirements.txt to avoid having to copy them into
@@ -24,8 +20,6 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
     python -m pip install -r requirements.txt
 
-USER appuser
-
 # Copy the source code into the container.
 COPY . /noteproject
 
@@ -33,5 +27,4 @@ COPY . /noteproject
 EXPOSE 8000
 
 # runs the application
-ENTRYPOINT ["python", "manage.py"]
-CMD ["runserver", "0.0.0.0:8000"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "noteproject.wsgi"]
