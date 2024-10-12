@@ -56,3 +56,6 @@ venv.bak/
 # IDE
 .idea
 .vscode
+
+# act Workflows
+.github/workflows/act*
