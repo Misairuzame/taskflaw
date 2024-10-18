@@ -17,6 +17,3 @@ jobs:
 
     - name: TruffleHog OSS
       uses: trufflesecurity/trufflehog@v3.82.11
-      with:
-        base: ""
-        head: ${{ github.ref_name }}
