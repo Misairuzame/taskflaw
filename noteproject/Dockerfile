@@ -10,6 +10,8 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # the application crashes without emitting any logs due to buffering.
 ENV PYTHONUNBUFFERED=1
 
+RUN addgroup -g 1001 -S nonrootgroup && adduser -u 1001 -S nonroot -G nonrootgroup
+
 WORKDIR /noteproject
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
@@ -25,6 +27,8 @@ COPY . /noteproject
 
 # Expose the port that the application listens on.
 EXPOSE 8000
+
+USER nonroot
 
 # runs the application
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "noteproject.wsgi:application"]

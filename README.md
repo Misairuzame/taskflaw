@@ -92,6 +92,7 @@ https://github.com/FlyingFrares/taskflaw/blob/9b39b7766426e158e779cb672cd3142eb7
 ###### Fix: 
 Using Django provided templates should protect you quite well, in this example the vulnerability was induced by the use of the safe-keyword. So be careful, if you use it. In this case, you can simply remove the safe pipe from line 38 and after the removal, the script will be processed as a string when submitted and thus no longer executable.
 
+
 ## Flaw 4: [A03:2021 - SQL Injection](https://owasp.org/Top10/A03_2021-Injection/)
 
 ###### Problem: 
@@ -112,7 +113,27 @@ context['notes'] = context['notes'].filter(
 )
 ```
 
-## Flaw 5: [A05:2021 - Security Misconfiguration](https://owasp.org/Top10/A05_2021-Security_Misconfiguration/)
+
+## Flaw 5: [A04:2021 – Insecure Design](https://owasp.org/Top10/A04_2021-Insecure_Design/)
+
+###### Problem: 
+The Dockerfile does not specify a USER, creating a container which runs as root.
+This is a security hazard. If an attacker can control a process running as root, they may have control over the container.
+
+###### Location:
+https://github.com/FlyingFrares/taskflaw/blob/171bf0041b897c78aa31b5e5d51e03e55c07c42e/noteproject/Dockerfile#L19-L21
+
+###### Fix:
+Create a non-privileged user inside Dockerfile that the app will run under.
+
+``` dockerfile
+RUN addgroup -g 1001 -S nonrootgroup && adduser -u 1001 -S nonroot -G nonrootgroup
+
+USER nonroot
+```
+
+
+## Flaw 6: [A05:2021 - Security Misconfiguration](https://owasp.org/Top10/A05_2021-Security_Misconfiguration/)
 
 ###### Problem: 
 In this app, the default settings are troublesome. The `SECRET_KEY` is left visible and `DEBUG`is `True` by default. Django itself warns about these issues as can be seen from the comments, but unfocused developers might forget to change these values. Secret keys should always be... secret. Debug is problematic in production, because it might reveal too much information about the inner workings of the system and simultaneously leak sensitive data or information.
@@ -131,7 +152,7 @@ In regards to the password validation, improvement could be achieved by various 
 
 `{ 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator' }`
 
-## Flaw 6: [A09:2021 - Security Logging and Monitoring Failures](https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/)
+## Flaw 7: [A09:2021 - Security Logging and Monitoring Failures](https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/)
 
 ###### Problem: 
 In this software the logging has been disabled as can be seen below. If there was an attack such as the one described in Flaw #1 (a brute-force script that guesses passwords), there would be thousands if not hunders of thousands of logging attempts. When there is no logging, the system administrator is not aware of these logging attempts. If they became aware of these attempts, they'd know that they are under an attack and could then act accordingly. 
