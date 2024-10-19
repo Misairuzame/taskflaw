@@ -55,7 +55,7 @@ In this application, it's currently possible to access notes of different users 
 `http://localhost:8000/note/2/` 
 
 ###### Location: 
-https://github.com/FlyingFrares/taskflaw/blob/9b39b7766426e158e779cb672cd3142eb792b128/noteproject/notes/views.py#L69-L72
+<https://github.com/FlyingFrares/taskflaw/blob/9b39b7766426e158e779cb672cd3142eb792b128/noteproject/notes/views.py#L69-L72>
 
 ###### Fix: 
 To fix broken access control related issues, extra attention should be paid towards testing different views and making sure sensitive data is accessible only by suitable user groups. To fix the BAC issue in this software, you can restrict accessibility of the individual notes by, in this case, adding a `LoginRequiredMixin` to the class associated with the vulnerability - in this case the NoteDetail. After the edit, the class definition would look like this:
@@ -72,7 +72,7 @@ In this application, during login process, the user data is transported without 
 ![Screenshot 2022-03-14 at 11 00 34](https://user-images.githubusercontent.com/85210617/158142284-f1317501-dd92-42b8-a77f-1f4b9958240e.png)
 
 ###### Location: 
-https://github.com/FlyingFrares/taskflaw/blob/9b39b7766426e158e779cb672cd3142eb792b128/noteproject/notes/templates/notes/login.html#L7-L14
+<https://github.com/FlyingFrares/taskflaw/blob/9b39b7766426e158e779cb672cd3142eb792b128/noteproject/notes/templates/notes/login.html#L7-L14>
 
 ###### Fix: 
 It would be a good idea to use a more secure way of transportation, such as SSL or HTTPS. When using these, the data will be sent in encrypted format and if hijacked, the hijacker can't make sense of the data because they won't have the required key to decrypt the data.
@@ -87,11 +87,10 @@ In this application, when creating a new incomplete note - the title field is no
 `Remember to buy pasta<script>alert('This could have been malicious code!');</script>.`
 
 ###### Location: 
-https://github.com/FlyingFrares/taskflaw/blob/9b39b7766426e158e779cb672cd3142eb792b128/noteproject/notes/templates/notes/note_list.html#L38-L41
+<https://github.com/FlyingFrares/taskflaw/blob/9b39b7766426e158e779cb672cd3142eb792b128/noteproject/notes/templates/notes/note_list.html#L38-L41>
 
 ###### Fix: 
 Using Django provided templates should protect you quite well, in this example the vulnerability was induced by the use of the safe-keyword. So be careful, if you use it. In this case, you can simply remove the safe pipe from line 38 and after the removal, the script will be processed as a string when submitted and thus no longer executable.
-
 
 ## Flaw 4: [A03:2021 - SQL Injection](https://owasp.org/Top10/A03_2021-Injection/)
 
@@ -102,7 +101,7 @@ This approach can be risky because it directly interpolates user input into the 
 `' OR 1=1--.`
 
 ###### Location:
-https://github.com/FlyingFrares/taskflaw/blob/9b39b7766426e158e779cb672cd3142eb792b128/noteproject/notes/views.py#L58-L61
+<https://github.com/FlyingFrares/taskflaw/blob/9b39b7766426e158e779cb672cd3142eb792b128/noteproject/notes/views.py#L58-L61>
 
 ###### Fix:
 This can be fixed by using Django's ORM filtering methods instead of raw SQL queries.
@@ -113,7 +112,6 @@ context['notes'] = context['notes'].filter(
 )
 ```
 
-
 ## Flaw 5: [A04:2021 – Insecure Design](https://owasp.org/Top10/A04_2021-Insecure_Design/)
 
 ###### Problem: 
@@ -121,7 +119,7 @@ The Dockerfile does not specify a USER, creating a container which runs as root.
 This is a security hazard. If an attacker can control a process running as root, they may have control over the container.
 
 ###### Location:
-https://github.com/FlyingFrares/taskflaw/blob/171bf0041b897c78aa31b5e5d51e03e55c07c42e/noteproject/Dockerfile#L19-L21
+<https://github.com/FlyingFrares/taskflaw/blob/171bf0041b897c78aa31b5e5d51e03e55c07c42e/noteproject/Dockerfile#L19-L21>
 
 ###### Fix:
 Create a non-privileged user inside Dockerfile that the app will run under.
@@ -132,7 +130,6 @@ RUN addgroup -g 1001 -S nonrootgroup && adduser -u 1001 -S nonroot -G nonrootgro
 USER nonroot
 ```
 
-
 ## Flaw 6: [A05:2021 - Security Misconfiguration](https://owasp.org/Top10/A05_2021-Security_Misconfiguration/)
 
 ###### Problem: 
@@ -141,9 +138,9 @@ In this app, the default settings are troublesome. The `SECRET_KEY` is left visi
 The app also seemingly has password validation, but on closer inspection it is lacking. For example common passwords are not prevented and this makes the system susceptible to brute-force scripts that try to guess the password. The admin user has the password `admin`, which is extremely bad and should not be allowed.
 
 ###### Location: 
-https://github.com/FlyingFrares/taskflaw/blob/9b39b7766426e158e779cb672cd3142eb792b128/noteproject/noteproject/settings.py#L22-L26
+<https://github.com/FlyingFrares/taskflaw/blob/9b39b7766426e158e779cb672cd3142eb792b128/noteproject/noteproject/settings.py#L22-L26>
 
-https://github.com/FlyingFrares/taskflaw/blob/9b39b7766426e158e779cb672cd3142eb792b128/noteproject/noteproject/settings.py#L85-L98
+<https://github.com/FlyingFrares/taskflaw/blob/9b39b7766426e158e779cb672cd3142eb792b128/noteproject/noteproject/settings.py#L85-L98>
 
 ###### Fix: 
 Make sure you're aware of the default settings and their pitfalls - react accordingly, in this case turn debug off in production and hide the secret key. Proper error handling is also necessary in order to avoid leaking sensitive information about the system. 
@@ -158,7 +155,7 @@ In regards to the password validation, improvement could be achieved by various 
 In this software the logging has been disabled as can be seen below. If there was an attack such as the one described in Flaw #1 (a brute-force script that guesses passwords), there would be thousands if not hunders of thousands of logging attempts. When there is no logging, the system administrator is not aware of these logging attempts. If they became aware of these attempts, they'd know that they are under an attack and could then act accordingly. 
 
 ###### Location: 
-https://github.com/FlyingFrares/taskflaw/blob/9b39b7766426e158e779cb672cd3142eb792b128/noteproject/noteproject/settings.py#L124-L136
+<https://github.com/FlyingFrares/taskflaw/blob/9b39b7766426e158e779cb672cd3142eb792b128/noteproject/noteproject/settings.py#L124-L136>
 
 ###### Fix: 
 In this software you could simply turn the `disable_existing_loggers` from `True` to `False` and you'd get some basic logging. Building a robust logging system is a more complex task that should be kept in mind throughout the development life cycle. Some core concepts that should kept in mind are unmodifiability of the logs, the intruder should not be able to modify the logs. Time stamps are vital as well, because with their aid it's possible to re-construct events and thus understand the causes and effects of different actions that have happened in the system. 
