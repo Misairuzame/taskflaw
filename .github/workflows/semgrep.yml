@@ -7,8 +7,7 @@ on:
   workflow_dispatch: {}
   # Scan mainline branches if there are changes to .github/workflows/semgrep.yml:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
     paths:
       - .github/workflows/semgrep.yml
   # Schedule the CI job (this method uses cron syntax):
