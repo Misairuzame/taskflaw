@@ -12,7 +12,7 @@ on:
       - .github/workflows/semgrep.yml
   # Schedule the CI job (this method uses cron syntax):
   schedule:
-    - cron: '20 17 * * *' # Sets Semgrep to scan every day at 17:20 UTC.
+    - cron: '14 02 * * *' # Sets Semgrep to scan every day at 17:20 UTC.
     # It is recommended to change the schedule to a random time.
 
 jobs:

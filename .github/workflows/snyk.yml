@@ -1,0 +1,25 @@
+name: Snyk Security Scan
+
+on:
+  # Scan changed files in PRs (diff-aware scanning):
+  pull_request: {}
+  # Scan on-demand through GitHub Actions interface:
+  workflow_dispatch: {}
+  # Scan mainline branches if there are changes to .github/workflows/semgrep.yml:
+  push:
+    branches: [ "main" ]
+    paths:
+      - .github/workflows/snyk.yml
+
+jobs:
+  snyk:
+    name: snyk/ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: monitor
