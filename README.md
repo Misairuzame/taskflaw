@@ -149,7 +149,19 @@ In regards to the password validation, improvement could be achieved by various 
 
 `{ 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator' }`
 
-## Flaw 7: [A09:2021 - Security Logging and Monitoring Failures](https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/)
+## Flaw 7: [A06:2021 – Vulnerable and Outdated Components](https://owasp.org/Top10/A06_2021-Vulnerable_and_Outdated_Components/)
+
+###### Problem:
+The application uses an outdated version of Django, which may contain known vulnerabilities that have been patched in newer versions. This can expose the application to security risks and attacks that exploit these vulnerabilities.
+
+###### Location: 
+<https://github.com/FlyingFrares/taskflaw/blob/3c1edc482050fa68d5347ab7d70f3add87483f95/noteproject/requirements.txt#L5>
+
+###### Fix: 
+Dependency-check can currently be used to scan software to identify the use of known vulnerable components.
+
+
+## Flaw 8: [A09:2021 - Security Logging and Monitoring Failures](https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/)
 
 ###### Problem: 
 In this software the logging has been disabled as can be seen below. If there was an attack such as the one described in Flaw #1 (a brute-force script that guesses passwords), there would be thousands if not hunders of thousands of logging attempts. When there is no logging, the system administrator is not aware of these logging attempts. If they became aware of these attempts, they'd know that they are under an attack and could then act accordingly. 
