@@ -1,11 +1,10 @@
-name: Snyk Security Scan
+name: Snyk SCA Scan
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
 
 jobs:
   security:
@@ -15,7 +14,10 @@ jobs:
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
         env:
+          COMMAND: "pip install --upgrade pip -r noteproject/requirements.txt"
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: code test
+          command: test --file=noteproject/requirements.txt
+        # Send snapshot directly to app.snyk.io
+        # command: monitor --file=noteproject/requirements.txt
 
