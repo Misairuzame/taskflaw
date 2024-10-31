@@ -1,0 +1,25 @@
+name: FOSSA SCA Scan
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  fossa-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout Code"
+        uses: actions/checkout@v4
+
+      - name: "Run FOSSA Scan"
+        uses: fossas/fossa-action@main # Use a specific version if locking is preferred
+        with:
+          api-key: ${{ secrets.FOSSA_APIKEY }}
+
+      - name: "Run FOSSA Test"
+        uses: fossas/fossa-action@main # Use a specific version if locking is preferred
+        with:
+          api-key: ${{ secrets.FOSSA_APIKEY }}
+          run-tests: true
