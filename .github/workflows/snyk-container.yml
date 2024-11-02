@@ -18,7 +18,7 @@ jobs:
       - name: Run Snyk to check Docker image for vulnerabilities
         uses: snyk/actions/docker@master
         env:
-          SNYK_TOKEN: 9a29ca3a-3fa6-465e-8f8d-bed4101b3c7d
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: flyin/taskflaw-test
         # command: monitor
