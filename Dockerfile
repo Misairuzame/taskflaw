@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 ARG PYTHON_VERSION=3.12.3
-FROM python:${PYTHON_VERSION}-slim-bookworm AS builder
+FROM python:${PYTHON_VERSION}-slim-bookworm AS base
 
 # Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -17,11 +17,11 @@ WORKDIR /noteproject
 # Leverage a bind mount to requirements.txt to avoid having to copy them into
 # into this layer.
 RUN --mount=type=cache,target=/root/.cache/pip \
-    --mount=type=bind,source=noteproject/requirements.txt,target=requirements.txt \
-    python -m pip install -r requirements.txt
+    --mount=type=bind,source=requirements.txt,target=requirements.txt \
+    python -m pip install --upgrade pip -r requirements.txt
 
 # Copy the source code into the container.
-COPY . /noteproject
+COPY /noteproject .
 
 # Expose the port that the application listens on.
 EXPOSE 8000
