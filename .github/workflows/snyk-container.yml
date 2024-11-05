@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch: {}
 
 jobs:
   security:
@@ -21,4 +22,5 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: flyin/taskflaw-test
+        # Send snapshot directly to app.snyk.io
         # command: monitor
