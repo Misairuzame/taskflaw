@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-ARG PYTHON_VERSION=3.12
+ARG PYTHON_VERSION=3.12.3
 FROM python:${PYTHON_VERSION}-slim-bookworm AS base
 
 # Prevents Python from writing pyc files.

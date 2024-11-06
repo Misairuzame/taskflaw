@@ -5,6 +5,8 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  schedule:
+    - cron: '14 02 * * *' # Sets Semgrep to scan every day at 02:14 UTC.
 
 jobs:
   secrets_scanning:
