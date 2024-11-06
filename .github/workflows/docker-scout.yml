@@ -21,6 +21,7 @@ jobs:
         with:
           dockerhub-user: ${{ vars.DOCKER_USERNAME }}
           dockerhub-password: ${{ secrets.DOCKERHUB_TOKEN }}
-          command: quickview,cves
+          command: quickview,cves,recommendations
+          # fail the build if any critical or high severity vulnerabilities are found
           only-severities: critical,high
           exit-code: true
