@@ -1,5 +1,7 @@
 # taskflaw
 
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FFlyingFrares%2Ftaskflaw.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2FFlyingFrares%2Ftaskflaw?ref=badge_shield&issueType=license)
+
 The goal of this project is to build an infrastructure that follows the DevOps pipeline while incorporating Security (Sec) practices.
 This includes:
 
