@@ -23,4 +23,4 @@ jobs:
         with:
           image: flyin/taskflaw-test
         # Send snapshot directly to app.snyk.io
-          command: monitor
+        # command: monitor
