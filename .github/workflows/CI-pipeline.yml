@@ -56,10 +56,10 @@ jobs:
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
         env:
-          COMMAND: "pip install --upgrade pip -r requirements.txt"
+          COMMAND: "pip install --upgrade pip -r noteproject/requirements.txt"
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: test --file=requirements.txt --severity-threshold=low
+          command: test --file=noteproject/requirements.txt --severity-threshold=low
         continue-on-error: false
 
   container_scan:
@@ -68,7 +68,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build a Docker image
-        run: docker build -f Dockerfile -t flyin/taskflaw-prebuild .
+        run: docker build -f noteproject/Dockerfile -t flyin/taskflaw-test noteproject
       - name: Docker Scout Scan
         uses: docker/scout-action@v1
         with:
@@ -95,7 +95,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: "{{defaultContext}}"
+          context: "{{defaultContext}}:noteproject"
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ vars.DOCKER_USERNAME }}/${{ github.event.repository.name }}:latest
