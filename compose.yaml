@@ -1,7 +1,7 @@
 services:
   web: 
     build:
-      context: .
+      context: noteproject
       dockerfile: Dockerfile
       target: base
     ports: 

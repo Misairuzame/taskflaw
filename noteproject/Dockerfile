@@ -21,7 +21,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     python -m pip install --upgrade pip -r requirements.txt
 
 # Copy the source code into the container.
-COPY /noteproject .
+COPY / .
 
 # Expose the port that the application listens on.
 EXPOSE 8000
