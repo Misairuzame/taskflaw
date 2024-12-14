@@ -25,8 +25,17 @@ jobs:
 
       - name: OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.14.0
+        env:
+          ZAP_AUTH_HEADER_VALUE: 'Basic ${{ secrets.ZAP_AUTH_HEADER_VALUE }}'
+          ZAP_AUTH_HEADER: 'Authorization'
         with:
           token: ${{ secrets.REPO_TOKEN }}
           target: 'http://localhost:8000'
           cmd_options: '-a'
           fail_action: 'true'
+
+      - name: Stop and remove Django container
+        if: always()
+        run: |
+          docker stop django-server
+          docker rm django-server
