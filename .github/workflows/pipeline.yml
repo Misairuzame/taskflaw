@@ -90,7 +90,7 @@ jobs:
       - name: Build and run Django container
         run: |
           docker build -f noteproject/Dockerfile -t django-server noteproject
-          docker run -rm -d -p 8000:8000 --name django-server django-server
+          docker run --rm -d -p 8000:8000 --name django-server django-server
       - name: Wait for Django to Start
         run: sleep 10
       - name: OWASP ZAP Baseline Scan
