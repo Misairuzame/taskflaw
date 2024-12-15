@@ -31,7 +31,7 @@ jobs:
       with:
         base: ""
         head: ${{ github.ref_name }}
-      continue-on-error: true
+      continue-on-error: false
 
   sast-scan:
     name: SAST Scanning with Semgrep
@@ -46,7 +46,7 @@ jobs:
       - run: semgrep ci
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
-        continue-on-error: true
+        continue-on-error: false
 
   sca-scan:
     name: SCA Scanning with Snyk
@@ -60,7 +60,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: test --file=noteproject/requirements.txt --severity-threshold=low
-        continue-on-error: true
+        continue-on-error: false
 
   container-scan:
     name: Container Scanning with Docker Scout
@@ -78,7 +78,7 @@ jobs:
           # fail the build if any critical or high severity vulnerabilities are found
           only-severities: critical,high
           exit-code: true
-        continue-on-error: true
+        continue-on-error: false
 
   dast-scan:
     name: DAST with ZAP Baseline Scan
@@ -103,7 +103,7 @@ jobs:
           target: 'http://localhost:8000'
           cmd_options: '-a'
           fail_action: 'true'
-        continue-on-error: true
+        continue-on-error: false
 
   release:
     name: Build and push to Docker Hub
