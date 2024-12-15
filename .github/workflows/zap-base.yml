@@ -21,7 +21,7 @@ jobs:
           docker run -d -p 8000:8000 --name django-server django-server
 
       - name: Wait for Django to Start
-        run: sleep 30
+        run: sleep 10
 
       - name: OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.14.0
