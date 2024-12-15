@@ -25,10 +25,13 @@ jobs:
 
       - name: OWASP ZAP Full Scan
         uses: zaproxy/action-full-scan@v0.12.0
+        env:
+          ZAP_AUTH_HEADER_VALUE: 'Basic dXNlcjpwYXNzd29yZAo='
+          ZAP_AUTH_HEADER: 'Authorization'
         with:
           token: ${{ secrets.REPO_TOKEN }}
           target: 'http://localhost:8000'
-          cmd_options: '-z "-configFile /zap/wrk/config/zap/options.prop" -a'
+          cmd_options: '-a'
           fail_action: 'true'
 
       - name: Stop and remove Django container
