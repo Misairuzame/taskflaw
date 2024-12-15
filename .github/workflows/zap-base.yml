@@ -26,7 +26,7 @@ jobs:
       - name: OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.14.0
         env:
-          ZAP_AUTH_HEADER_VALUE: 'Basic dXNlcjpwYXNzd29yZAo='
+          ZAP_AUTH_HEADER_VALUE: 'Basic dXNlcjpwYXNzd29yZAo=' # base64 encoded user:password
           ZAP_AUTH_HEADER: 'Authorization'
         with:
           token: ${{ secrets.REPO_TOKEN }}

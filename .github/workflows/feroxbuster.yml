@@ -8,7 +8,7 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  dast-scan:
+  fuzzing:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,7 +26,7 @@ jobs:
       - name: Run Feroxbuster
         run: |
           docker run --rm --network host epi052/feroxbuster \
-          -u http://localhost:8000/ --time-limit 10m \
+          -u http://localhost:8000/ --time-limit 10m
 
       - name: Stop and remove Django container
         if: always()
