@@ -25,8 +25,8 @@ jobs:
 
       - name: Run Feroxbuster
         run: |
-          docker run --rm --network host epi052/feroxbuster \
-          -u http://localhost:8000/ --time-limit 10m
+          docker run --rm --net=host epi052/feroxbuster \
+          -u http://localhost:8000 --time-limit 10m -vv \
 
       - name: Stop and remove Django container
         if: always()
