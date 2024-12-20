@@ -8,7 +8,7 @@ on:
 
 jobs:
   secrets-scan:
-    name: Secrets Scanning with GitGuardian and Trufflehog
+    name: Secrets Scanning
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -16,7 +16,7 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: GitGuardian scan
+    - name: GitGuardian
       uses: GitGuardian/ggshield/actions/secret@v1.33.0
       env:
         GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
@@ -34,7 +34,7 @@ jobs:
       continue-on-error: false
 
   sast-scan:
-    name: SAST Scanning with Semgrep
+    name: SAST w/ Semgrep
     runs-on: ubuntu-latest
     container:
       # Do not change this.
@@ -49,7 +49,7 @@ jobs:
         continue-on-error: false
 
   sca-scan:
-    name: SCA Scanning with Snyk
+    name: SCA w/ Snyk
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -63,7 +63,7 @@ jobs:
         continue-on-error: false
 
   container-scan:
-    name: Container Scanning with Docker Scout
+    name: Container Scanning w/ Docker Scout
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -81,7 +81,7 @@ jobs:
         continue-on-error: false
 
   dast-scan:
-    name: DAST with ZAP Baseline Scan
+    name: DAST w/ ZAP
     runs-on: ubuntu-latest
     needs: [secrets-scan, sast-scan, sca-scan, container-scan]
     steps:
@@ -94,7 +94,7 @@ jobs:
       - name: Wait for Django to Start
         run: sleep 10
       - name: OWASP ZAP Baseline Scan
-        uses: zaproxy/action-baseline@v0.14.0
+        uses: zaproxy/action-full-scan@v0.12.0
         env:
           ZAP_AUTH_HEADER_VALUE: 'Basic dXNlcjpwYXNzd29yZAo='
           ZAP_AUTH_HEADER: 'Authorization'
@@ -106,7 +106,7 @@ jobs:
         continue-on-error: false
 
   fuzzing:
-    name: Fuzzing with ffuf
+    name: Fuzzing w/ FFUF
     runs-on: ubuntu-latest
     needs: [secrets-scan, sast-scan, sca-scan, container-scan]
     steps:
@@ -151,7 +151,7 @@ jobs:
         continue-on-error: false
 
   release:
-    name: Build and push to Docker Hub
+    name: Release to Docker Hub
     runs-on: ubuntu-latest
     needs: [dast-scan, fuzzing]
     steps:
