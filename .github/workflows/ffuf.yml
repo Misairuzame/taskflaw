@@ -45,9 +45,16 @@ jobs:
         run: |
           ffuf -u http://localhost:8000/FUZZ \
           -w /opt/SecLists/Discovery/Web-Content/raft-medium-directories.txt \
-          -recursion -recursion-depth 4 \
+          -recursion -recursion-depth 2 \
           -debug-log debug.txt \
           -o output.html -of html
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ffuf_debug_log
+          path: |
+            debug.txt
 
       - name: Check for errors by counting lines in debug log
         run: |
@@ -56,13 +63,6 @@ jobs:
             echo "$error_count errors found"
             exit 1
           fi
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: artifacts
-          path: |
-            debug.txt
 
       - name: Stop and remove Django container
         if: always()
