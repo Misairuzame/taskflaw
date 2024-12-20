@@ -1,0 +1,71 @@
+name: Fuzzing with ffuf
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch: {}
+
+jobs:
+  fuzzing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build and run Django container
+        run: |
+          docker build -f noteproject/Dockerfile -t django-server noteproject
+          docker run -d -p 8000:8000 --name django-server django-server
+
+      - name: Wait for Django to Start
+        run: sleep 10
+
+      - name: Install ffuf
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffuf
+
+      # if you want to include all SecLists wordlists, uncomment the following lines
+#     - name: Install SecLists wordlists
+#       run: |
+#         git clone --depth 1 \
+#         https://github.com/danielmiessler/SecLists.git /opt/SecLists
+
+      # a faster way to download a single wordlist
+      - name: Download raft-medium-directories.txt from SecLists
+        run: |
+          mkdir -p /opt/SecLists/Discovery/Web-Content
+          wget -O /opt/SecLists/Discovery/Web-Content/raft-medium-directories.txt \
+          https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/raft-medium-directories.txt
+
+      - name: Run ffuf fuzzing
+        run: |
+          ffuf -u http://localhost:8000/FUZZ \
+          -w /opt/SecLists/Discovery/Web-Content/raft-medium-directories.txt \
+          -recursion -recursion-depth 4 \
+          -debug-log debug.txt \
+          -o output.html -of html
+
+      - name: Check for errors by counting lines in debug log
+        run: |
+          error_count=$(($(wc -l < debug.txt) - 1)) 
+          if [ $error_count -gt 0 ]; then
+            echo "$error_count errors found"
+            exit 1
+          fi
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: |
+            debug.txt
+
+      - name: Stop and remove Django container
+        if: always()
+        run: |
+          docker stop django-server
+          docker rm django-server
