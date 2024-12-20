@@ -38,19 +38,19 @@ jobs:
       - name: Download raft-medium-directories.txt from SecLists
         run: |
           mkdir -p /opt/SecLists/Discovery/Web-Content
-          wget -O /opt/SecLists/Discovery/Web-Content/raft-medium-directories.txt \
-          https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/raft-medium-directories.txt
+          wget -O /opt/SecLists/Discovery/Web-Content/common.txt \
+          https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/common.txt
 
       - name: Run ffuf fuzzing
         run: |
           ffuf -u http://localhost:8000/FUZZ \
-          -w /opt/SecLists/Discovery/Web-Content/raft-medium-directories.txt \
+          -w /opt/SecLists/Discovery/Web-Content/common.txt \
           -recursion -recursion-depth 2 \
           -debug-log debug.txt \
           -o output.html -of html
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ffuf_debug_log
           path: |
@@ -58,10 +58,10 @@ jobs:
 
       - name: Check for errors by counting lines in debug log
         run: |
-          error_count=$(($(wc -l < debug.txt) - 1)) 
+          error_count=$(wc -l < debug.txt) 
           if [ $error_count -gt 0 ]; then
             echo "$error_count errors found"
-            exit 1
+            exit $error_count
           fi
 
       - name: Stop and remove Django container
