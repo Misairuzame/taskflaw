@@ -25,8 +25,11 @@ SECRET_KEY = "django-insecure-+omlesv0&k8u1q%8@lu_!3yw^mwc5(#k+w=ol8h=qy4i-q+m99
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "172.17.0.1", "localhost"]
+# ALLOWED_HOSTS = ["0.0.0.0", "127.0.0.1", "172.17.0.1", "localhost"]
+ALLOWED_HOSTS = ["*"]
 
+# CSRF_TRUSTED_ORIGINS = ["https://172.17.0.1:8000", "http://172.17.0.1:8000"]
+CSRF_TRUSTED_ORIGINS = ["*"]
 
 # Application definition
 
@@ -125,7 +128,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": True,
+    "disable_existing_loggers": False,
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
