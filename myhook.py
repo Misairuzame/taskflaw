@@ -1,8 +1,12 @@
 from zapv2 import ZAPv2
 
+global_target = ""
+
 
 def zap_started(zap: ZAPv2, target):
+    global global_target
     print("myhook.py: The target is:", target)
+    global_target = target
 
     zap.replacer.add_rule(
         description="Remove 'complete=on' from POST data",
@@ -13,13 +17,10 @@ def zap_started(zap: ZAPv2, target):
         replacement="",
     )
 
-    # print(zap.ascan.scanners())
-    # print("\n\n\n\n")
-
     # Disabilita User Agent Fuzzer
     zap.ascan.disable_scanners("10104")
 
 
 def zap_pre_shutdown(zap):
-    print("myhook.py: Printing stats before shutdown...")
-    print(zap.stats.site_stats("http://172.17.0.1:8000", "stats.auth"))
+    print("myhook.py: Printing authentication stats before shutdown...")
+    print(zap.stats.site_stats(global_target, "stats.auth"))

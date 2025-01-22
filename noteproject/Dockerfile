@@ -27,4 +27,5 @@ COPY / .
 EXPOSE 8000
 
 # runs the application
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--access-logfile", "-", "--threads", "4", "noteproject.wsgi:application"]
+# CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--access-logfile", "-", "noteproject.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "noteproject.wsgi:application"]

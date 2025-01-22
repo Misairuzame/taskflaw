@@ -24,6 +24,10 @@ jobs:
         with:
           #token: ${{ secrets.REPO_TOKEN }}
           target: 'http://localhost:8000'
-          cmd_options: '-a -d --hook=auth_hook.py'
+          # -n: file di contesto
+          # -U: utente con il quale fare la scansione (definito nel file di contesto)
+          # --hook: il file Python con gli hook
+          # Per un output di debug aggiungere alle opzioni "-d"
+          cmd_options: '-n noteproject-barebones.context -U admin --hook myhook.py'
           fail_action: 'true'
         continue-on-error: false
